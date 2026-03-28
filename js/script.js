@@ -99,34 +99,22 @@ document.addEventListener('DOMContentLoaded', function () {
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
-      // Build a temporary hidden form for EmailJS sendForm
-      var tempForm = document.createElement('form');
-      tempForm.style.display = 'none';
-
-      var fields = {
-        from_name:  name,
-        from_email: email,
-        subject:    subject || 'Consultation Request',
-        message:    message,
-        to_email:   'rphdrshizza@gmail.com'
+      // Template fields matching EmailJS template_6yonr8i exactly:
+      // title = subject, name = sender name, time = (not used — sent as empty)
+      // message = message body, email = sender email
+      var templateParams = {
+        title:   subject || 'Consultation Request',
+        name:    name,
+        time:    '',
+        message: message,
+        email:   email
       };
 
-      Object.keys(fields).forEach(function (key) {
-        var input = document.createElement('input');
-        input.name  = key;
-        input.value = fields[key];
-        tempForm.appendChild(input);
-      });
-
-      document.body.appendChild(tempForm);
-
       if (typeof emailjs !== 'undefined') {
-        emailjs.sendForm(EMAILJS_SERVICE, EMAILJS_TEMPLATE, tempForm)
+        emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams)
           .then(function () {
-            document.body.removeChild(tempForm);
             showSuccess();
           }, function (error) {
-            document.body.removeChild(tempForm);
             console.error('EmailJS error:', error);
             // Mailto fallback
             window.location.href = 'mailto:rphdrshizza@gmail.com'
@@ -136,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
           });
       } else {
         // EmailJS SDK not loaded — direct mailto fallback
-        document.body.removeChild(tempForm);
         window.location.href = 'mailto:rphdrshizza@gmail.com'
           + '?subject=' + encodeURIComponent(subject || 'Consultation Request — ' + name)
           + '&body=' + encodeURIComponent('From: ' + name + ' <' + email + '>\n\n' + message);
