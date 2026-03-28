@@ -1,5 +1,3 @@
-🔷 Full Repository Description (README intro)
-
 ClinovaRx is a modern, responsive personal healthcare platform designed to showcase the professional profile and clinical expertise of a licensed pharmacist. The platform emphasizes patient-centered care, medication safety, and therapeutic excellence while maintaining a clean and trustworthy digital presence.
 
 Built with a focus on both professional branding and practical healthcare value, ClinovaRx highlights real-world clinical experience, academic contributions, and core pharmaceutical competencies.
